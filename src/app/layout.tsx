@@ -5,6 +5,8 @@ import CartDrawer from "@/app/components/CartDrawer";
 
 import "./globals.css";
 import Link from "next/link";
+import { COMMON } from "./constants/product";
+import { CONFIG } from "./constants";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,11 +36,8 @@ export default function RootLayout({
         <CartProvider>
           {/* Header */}
           <header className="fixed top-0 w-full h-16 bg-blue-600 text-white flex items-center px-4 shadow z-10">
-            <Link
-              href="/"
-              className="px-6 py-2  rounded-lg hover:bg-gray-800 transition"
-            >
-              <h1 className="text-lg font-semibold">My App</h1>
+            <Link href="/" className="px-6 py-2 hover:text-blue-950 transition">
+              <h1 className="text-lg font-semibold">{CONFIG.APP_NAME}</h1>
             </Link>
           </header>
           <div className="h-16" />
@@ -57,7 +56,7 @@ export default function RootLayout({
 
           {/* Footer */}
           <footer className="fixed bottom-0 w-full h-14 bg-blue-600 text-white flex items-center justify-center shadow z-10">
-            <p>© 2025 My App</p>
+            <p>{COMMON.COPY_RIGHT}</p>
           </footer>
         </CartProvider>
       </body>

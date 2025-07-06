@@ -1,35 +1,87 @@
 'use client';
+import { useState } from "react";
+import Link from "next/link";
 
-import Image from 'next/image';
-import Link from 'next/link';
+import Image from "next/image";
 
-interface ProductCardProps {
+import { useCart } from "@/app/context/CartContext";
+
+type Product = {
   id: number;
   title: string;
   price: number;
-  image: string;
-}
+  description: string;
+  category: string;
+  thumbnail: string;
+};
 
-export default function ProductCard({ id, title, price, image }: ProductCardProps) {
+export default function ProductCard({ product }: { product: Product }) {
+  const { addToCart } = useCart();
+  const [quantity, setQuantity] = useState(1);
+
+  const handleIncrement = () => setQuantity((q) => Math.min(q + 1, 99));
+  const handleDecrement = () => setQuantity((q) => Math.max(q - 1, 1));
+
+  const { id, thumbnail, title, price, description, category } = product;
   return (
-    <Link href={`/product/${id}`} className="group">
-      <div className="h-full bg-white rounded-xl border hover:shadow-lg transition p-4 flex flex-col">
-        <div className="w-full h-40 relative mb-4">
+    <div className="bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-lg transform hover:scale-[1.02] transition-all duration-300 overflow-hidden">
+      {/* Details */}
+      <Link href={`/product/${product.id}`}>
+        {/* Image */}
+        <div className="relative w-full h-60 bg-pink-50">
           <Image
-            src={image}
+            src={thumbnail}
             alt={title}
             fill
-            className="object-contain"
-            sizes="(max-width: 768px) 100vw, 33vw"
+            className="object-contain p-6"
           />
         </div>
-
-        <h2 className="text-sm font-semibold text-gray-800 group-hover:text-black line-clamp-2 flex-grow">
+        <h2 className="text-base font-semibold text-gray-800 line-clamp-2">
           {title}
         </h2>
+      </Link>
+      <div className="p-4 flex flex-col gap-2">
+        <span className="text-xs text-rose-400 uppercase tracking-wide font-medium">
+          {category}
+        </span>
 
-        <div className="mt-4 text-lg font-bold text-indigo-600">${price}</div>
+        <p className="text-sm text-gray-600 line-clamp-2">{description}</p>
+
+        <div className="flex items-center justify-between mt-2">
+          <span className="text-emerald-600 font-bold text-lg">
+            ${price.toFixed(2)}
+          </span>
+        </div>
+
+        {/* Quantity controls */}
+        <div className="flex items-center gap-2">
+          <button
+            onClick={handleDecrement}
+            className="w-8 h-8 text-lg font-bold rounded bg-gray-200 hover:bg-gray-300"
+          >
+            –
+          </button>
+          <span className="min-w-[24px] text-center font-medium">
+            {quantity}
+          </span>
+          <button
+            onClick={handleIncrement}
+            className="w-8 h-8 text-lg font-bold rounded bg-gray-200 hover:bg-gray-300"
+          >
+            +
+          </button>
+        </div>
+
+        <button
+          className="mt-4 bg-rose-500 hover:bg-rose-600 text-white text-sm py-2 rounded-md shadow-md transition cursor-pointer"
+          onClick={(event) => {
+            event.stopPropagation(); // no need for optional chaining here
+            addToCart(product);
+          }}
+        >
+          Add to Cart
+        </button>
       </div>
-    </Link>
+    </div>
   );
 }

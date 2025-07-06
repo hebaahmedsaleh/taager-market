@@ -1,14 +1,17 @@
 import ProductCard from "@/app/components/ProductCard";
+import { CONFIG } from "./constants";
 
 interface Product {
   id: number;
   title: string;
   price: number;
-  image: string;
+  description: string;
+  category: string;
+  thumbnail: string;
 }
 
 export default async function ProductsPage() {
-  const res = await fetch("https://fakestoreapi.com/products", {
+  const res = await fetch(`${CONFIG.API_BASE_URL}/products`, {
     cache: "no-store",
   });
 
@@ -16,22 +19,14 @@ export default async function ProductsPage() {
     throw new Error("Failed to fetch products");
   }
 
-  const products: Product[] = await res.json();
+  const data = await res.json();
+  const products: Product[] = data.products;
 
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-6">All Products</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {products.map((product) => (
-          <ProductCard
-            key={product.id}
-            id={product.id}
-            title={product.title}
-            price={product.price}
-            image={product.image}
-          />
-        ))}
-      </div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      {products?.map((product) => (
+        <ProductCard key={product.id} product={product} />
+      ))}
     </div>
   );
 }

@@ -1,79 +1,80 @@
 'use client';
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  ReactNode,
-} from 'react';
+import { createContext, useContext, useEffect, useState } from "react";
+import type { Product } from "@/app/types/Product";
 
-type Product = {
-  id: number;
-  title: string;
-  price: number;
-  image: string;
-  quantity?: number;
-};
-
-type CartContextType = {
+interface CartContextType {
   cart: Product[];
-  isCartOpen: boolean;
   addToCart: (product: Product) => void;
-  removeFromCart: (id: number) => void;
+  removeOneFromCart: (id: number) => void;
+  clearItem: (id: number) => void;
+  groupedCart: Record<number, { product: Product; quantity: number }>;
+  isCartOpen: boolean;
   toggleCart: () => void;
   closeCart: () => void;
-};
+}
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
-const STORAGE_KEY = 'myapp_cart';
-
-export const CartProvider = ({ children }: { children: ReactNode }) => {
+export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const [cart, setCart] = useState<Product[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
-  // Load cart from localStorage on mount
+  // Load from localStorage
   useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY);
+    const stored = localStorage.getItem("cart");
     if (stored) {
-      try {
-        setCart(JSON.parse(stored));
-      } catch (e) {
-        console.error('Failed to parse cart from localStorage:', e);
-      }
+      setCart(JSON.parse(stored));
     }
   }, []);
 
-  // Save cart to localStorage whenever it changes
+  // Save to localStorage
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
+    localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
   const addToCart = (product: Product) => {
-    setCart((prev) => {
-      const exists = prev.find((item) => item.id === product.id);
-      if (exists) {
-        return prev.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: (item.quantity || 1) + 1 }
-            : item
-        );
-      }
-      return [...prev, { ...product, quantity: 1 }];
-    });
+    setCart((prev) => [...prev, product]);
     setIsCartOpen(true);
   };
 
-  const removeFromCart = (id: number) => {
-    setCart((prev) => prev.filter((item) => item.id !== id));
+  const removeOneFromCart = (id: number) => {
+    setCart((prev) => {
+      const index = prev.findIndex((p) => p.id === id);
+      if (index === -1) return prev;
+      const copy = [...prev];
+      copy.splice(index, 1);
+      return copy;
+    });
   };
 
   const toggleCart = () => setIsCartOpen((prev) => !prev);
   const closeCart = () => setIsCartOpen(false);
 
+  const clearItem = (id: number) => {
+    setCart((prev) => prev.filter((p) => p.id !== id));
+  };
+
+  const groupedCart = cart.reduce((acc, product) => {
+    if (!acc[product.id]) {
+      acc[product.id] = { product, quantity: 1 };
+    } else {
+      acc[product.id].quantity += 1;
+    }
+    return acc;
+  }, {} as Record<number, { product: Product; quantity: number }>);
+
   return (
     <CartContext.Provider
-      value={{ cart, isCartOpen, addToCart, removeFromCart, toggleCart, closeCart }}
+      value={{
+        cart,
+        addToCart,
+        removeOneFromCart,
+        clearItem,
+        groupedCart,
+        isCartOpen,
+        toggleCart,
+        closeCart,
+      }}
     >
       {children}
     </CartContext.Provider>

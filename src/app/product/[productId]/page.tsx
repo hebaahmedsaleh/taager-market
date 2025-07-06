@@ -1,9 +1,10 @@
 "use client";
 
-import { notFound, useParams } from "next/navigation";
+import { useParams } from "next/navigation";
 
 import { useCart } from "@/app/context/CartContext";
 import { useEffect, useState } from "react";
+import { CONFIG } from "@/app/constants";
 
 type Product = {
   id: number;
@@ -11,11 +12,8 @@ type Product = {
   price: number;
   description: string;
   category: string;
-  image: string;
-  rating: {
-    rate: number;
-    count: number;
-  };
+  thumbnail: string;
+  rating: number;
 };
 
 export default function ProductPage() {
@@ -27,7 +25,7 @@ export default function ProductPage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const apiUrl = `https://fakestoreapi.com/products/${productId}`;
+      const apiUrl = `${CONFIG.API_BASE_URL}/products/${productId}`;
       try {
         const res = await fetch(apiUrl);
         const product = await res.json();
@@ -38,16 +36,16 @@ export default function ProductPage() {
     };
 
     fetchData();
-  }, [params.productId]);
+  }, [params.productId, productId]);
 
-  const { title, image, description, price, category, rating } =
+  const { title, thumbnail, description, price, category, rating } =
     productDetails || {};
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-2xl shadow-md flex flex-col md:flex-row gap-6">
       {/* Product Image */}
       <div className="w-full md:w-1/2 flex justify-center">
         <img
-          src={image}
+          src={thumbnail}
           alt={title}
           className="h-80 object-contain rounded-lg"
         />
@@ -66,9 +64,7 @@ export default function ProductPage() {
               <svg
                 key={i}
                 className={`w-5 h-5 ${
-                  i < Math.round(rating?.rate)
-                    ? "fill-current"
-                    : "text-gray-300"
+                  i < Math.round(rating) ? "fill-current" : "text-gray-300"
                 }`}
                 viewBox="0 0 20 20"
                 fill="currentColor"
@@ -77,9 +73,7 @@ export default function ProductPage() {
               </svg>
             ))}
           </div>
-          <span className="text-sm text-gray-600">
-            ({rating?.count} reviews)
-          </span>
+          <span className="text-sm text-gray-600">({rating} reviews)</span>
         </div>
 
         <p className="text-gray-700 text-sm">{description}</p>
