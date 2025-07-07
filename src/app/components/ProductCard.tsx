@@ -28,7 +28,7 @@ export default function ProductCard({ product }: { product: Product }) {
             <Image
               src={thumbnail}
               alt={title}
-              fill
+              fill={true}
               className="object-contain p-6"
             />
           </div>

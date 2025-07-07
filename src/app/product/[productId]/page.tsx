@@ -43,7 +43,6 @@ export default function ProductPage() {
           className="h-80 object-contain rounded-lg"
           width={400}
           height={400}
-          fill
         />
       </div>
 
