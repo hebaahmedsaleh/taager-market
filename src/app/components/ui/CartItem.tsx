@@ -40,7 +40,9 @@ export default function CartItem({
 
       {/* Info */}
       <div className="flex-1">
-        <h3 className="text-sm font-semibold line-clamp-1">{item.title}</h3>
+        <h3 className="text-sm font-semibold line-clamp-1 text-gray-700">
+          {item.title}
+        </h3>
         <p className="text-sm text-indigo-600 font-medium">
           ${item.price} × {quantity}
         </p>
@@ -52,14 +54,14 @@ export default function CartItem({
         <div className="mt-2 flex items-center gap-2">
           <button
             onClick={onDecrement}
-            className="px-2 py-1 text-sm bg-gray-200 hover:bg-gray-300 rounded"
+            className="px-2 py-1 text-sm bg-blue-600 hover:bg-gray-300 rounded"
           >
             -
           </button>
-          <span className="text-sm">{quantity}</span>
+          <span className="text-sm text-gray-700">{quantity}</span>
           <button
             onClick={onIncrement}
-            className="px-2 py-1 text-sm bg-gray-200 hover:bg-gray-300 rounded"
+            className="px-2 py-1 text-sm bg-blue-600 hover:bg-gray-300 rounded"
           >
             +
           </button>

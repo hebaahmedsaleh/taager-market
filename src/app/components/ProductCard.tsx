@@ -53,20 +53,18 @@ export default function ProductCard({ product }: { product: Product }) {
           </span>
         </div>
 
-        {/* Quantity controls */}
-        <div className="flex items-center gap-2">
+        {/* Quantity Controls */}
+        <div className="mt-2 flex items-center gap-2">
           <button
             onClick={handleDecrement}
-            className="w-8 h-8 text-lg font-bold rounded bg-gray-200 hover:bg-gray-300"
+            className="px-2 py-1 text-sm bg-blue-600 hover:bg-gray-300 rounded"
           >
-            –
+            -
           </button>
-          <span className="min-w-[24px] text-center font-medium">
-            {quantity}
-          </span>
+          <span className="text-sm text-gray-700">{quantity}</span>
           <button
             onClick={handleIncrement}
-            className="w-8 h-8 text-lg font-bold rounded bg-gray-200 hover:bg-gray-300"
+            className="px-2 py-1 text-sm bg-blue-600 hover:bg-gray-300 rounded"
           >
             +
           </button>

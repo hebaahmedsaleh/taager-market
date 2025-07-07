@@ -31,7 +31,7 @@ export default function CartDrawer() {
       >
         Close
       </button>
-      <h2 className="text-xl font-semibold mb-4">Your Cart</h2>
+      <h2 className="text-xl font-semibold mb-4 text-gray-600">Your Cart</h2>
 
       {cart.length === 0 ? (
         <p className="text-gray-600">Your cart is empty</p>
