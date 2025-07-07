@@ -3,6 +3,7 @@
 import React from "react";
 import { useCart } from "@/app/context/CartContext";
 import CartItem from "./ui/CartItem";
+import { MESSAGES, COMMON } from "../constants";
 
 export default function CartDrawer() {
   const {
@@ -34,7 +35,7 @@ export default function CartDrawer() {
       <h2 className="text-xl font-semibold mb-4 text-gray-600">Your Cart</h2>
 
       {cart.length === 0 ? (
-        <p className="text-gray-600">Your cart is empty</p>
+        <p className="text-gray-600">{MESSAGES.CART_EMPTY}</p>
       ) : (
         <>
           <ul>
@@ -51,7 +52,7 @@ export default function CartDrawer() {
           </ul>
 
           <p className="font-bold text-lg mt-4 border-t pt-4 text-pink-500">
-            Total: ${total.toFixed(2)}
+            {COMMON.TOTAL}: ${total.toFixed(2)}
           </p>
         </>
       )}

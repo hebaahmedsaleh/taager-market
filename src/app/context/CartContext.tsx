@@ -66,23 +66,32 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     }, {} as Record<number, CartItem>);
   }, [cart]);
 
-  return (
-    <CartContext.Provider
-      value={{
-        cart,
-        addToCart,
-        removeOneFromCart,
-        clearItem,
-        groupedCart,
-        isCartOpen,
-        toggleCart,
-        closeCart,
-        openCart,
-      }}
-    >
-      {children}
-    </CartContext.Provider>
+  const value = useMemo(
+    () => ({
+      cart,
+      addToCart,
+      removeOneFromCart,
+      clearItem,
+      groupedCart,
+      isCartOpen,
+      toggleCart,
+      closeCart,
+      openCart,
+    }),
+    [
+      cart,
+      addToCart,
+      removeOneFromCart,
+      clearItem,
+      groupedCart,
+      isCartOpen,
+      toggleCart,
+      closeCart,
+      openCart,
+    ]
   );
+
+  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 };
 
 export const useCart = () => {
