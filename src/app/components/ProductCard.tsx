@@ -1,7 +1,7 @@
 'use client';
 
 import Link from "next/link";
-import SkeletonImage from "@/app/components/SkeletonImage";
+import Image from "next/image";
 
 import { useCart } from "@/app/context/CartContext";
 
@@ -25,13 +25,11 @@ export default function ProductCard({ product }: { product: Product }) {
         <Link href={`/product/${product.id}`}>
           {/* Image */}
           <div className="relative w-full h-60 bg-pink-50">
-            <SkeletonImage
+            <Image
               src={thumbnail}
               alt={title}
               fill
               className="object-contain p-6"
-              width={"100%"}
-              height={"100%"}
             />
           </div>
           <h2 className="text-base font-semibold text-gray-800 line-clamp-2 m-3">
