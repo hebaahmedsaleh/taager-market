@@ -64,7 +64,7 @@ export default function ProductPage() {
               <svg
                 key={i}
                 className={`w-5 h-5 ${
-                  i < Math.round(rating) ? "fill-current" : "text-gray-300"
+                  i < Math.round(rating ?? 0) ? "fill-current" : "text-gray-300"
                 }`}
                 viewBox="0 0 20 20"
                 fill="currentColor"
@@ -80,7 +80,8 @@ export default function ProductPage() {
 
         <button
           className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
-          onClick={() => addToCart(productDetails)}
+          onClick={() => productDetails && addToCart(productDetails)}
+          disabled={!productDetails}
         >
           Add to Cart
         </button>

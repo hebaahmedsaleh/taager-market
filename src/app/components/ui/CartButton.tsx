@@ -5,7 +5,7 @@ import { ShoppingCart } from 'lucide-react'; // or any icon
 export default function CartButton() {
   const { toggleCart, cart } = useCart();
 
-  const count = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+  const count = cart.reduce((sum, item) => sum + (item?.quantity || 1), 0);
 
   return (
     <button onClick={toggleCart} className="relative">
