@@ -22,7 +22,7 @@ export default function ProductCard({ product }: { product: Product }) {
   const handleIncrement = () => setQuantity((q) => Math.min(q + 1, 99));
   const handleDecrement = () => setQuantity((q) => Math.max(q - 1, 1));
 
-  const { id, thumbnail, title, price, description, category } = product;
+  const { thumbnail, title, price, description, category } = product;
   return (
     <div className="bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-lg transform hover:scale-[1.02] transition-all duration-300 overflow-hidden">
       {/* Details */}
