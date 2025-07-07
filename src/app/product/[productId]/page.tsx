@@ -1,20 +1,13 @@
 "use client";
 
 import { useParams } from "next/navigation";
+import Image from "next/image";
 
 import { useCart } from "@/app/context/CartContext";
 import { useEffect, useState } from "react";
 import { CONFIG } from "@/app/constants";
 
-type Product = {
-  id: number;
-  title: string;
-  price: number;
-  description: string;
-  category: string;
-  thumbnail: string;
-  rating: number;
-};
+import type { Product } from "@/app/types/Product";
 
 export default function ProductPage() {
   const [productDetails, setProductDetails] = useState<Product | null>(null);
@@ -44,9 +37,10 @@ export default function ProductPage() {
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-2xl shadow-md flex flex-col md:flex-row gap-6">
       {/* Product Image */}
       <div className="w-full md:w-1/2 flex justify-center">
-        <img
-          src={thumbnail}
-          alt={title}
+        <Image
+          src={thumbnail ?? "/placeholder.png"}
+          alt={title ?? "Product image"}
+          fill // fills the parent container
           className="h-80 object-contain rounded-lg"
         />
       </div>
