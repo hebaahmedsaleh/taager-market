@@ -10,6 +10,7 @@ import {
 import type { Product } from "@/app/types/Product";
 
 import type { CartContextType, CartItem } from "@/app/types/Cart";
+import { CONFIG, MESSAGES } from "../constants";
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
@@ -20,16 +21,16 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   // ✅ Load cart once from localStorage
   useEffect(() => {
     try {
-      const stored = localStorage.getItem("cart");
+      const stored = localStorage.getItem(CONFIG.LOCAL_STORAGE_KEY);
       if (stored) setCart(JSON.parse(stored));
     } catch (err) {
-      console.error("Failed to parse cart from localStorage", err);
+      console.error(MESSAGES.LOCAL_STORAG_FAILURE, err);
     }
   }, []);
 
   // ✅ Save to localStorage only when cart changes
   useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cart));
+    localStorage.setItem(CONFIG.LOCAL_STORAGE_KEY, JSON.stringify(cart));
   }, [cart]);
 
   // ✅ Memoized Handlers
