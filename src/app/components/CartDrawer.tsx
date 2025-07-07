@@ -50,7 +50,7 @@ export default function CartDrawer() {
             ))}
           </ul>
 
-          <p className="font-bold text-lg mt-4 border-t pt-4">
+          <p className="font-bold text-lg mt-4 border-t pt-4 text-pink-500">
             Total: ${total.toFixed(2)}
           </p>
         </>

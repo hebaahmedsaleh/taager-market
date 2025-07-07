@@ -1,14 +1,7 @@
 import ProductCard from "@/app/components/ProductCard";
 import { CONFIG } from "./constants";
+import { Product } from "./types/Product";
 
-interface Product {
-  id: number;
-  title: string;
-  price: number;
-  description: string;
-  category: string;
-  thumbnail: string;
-}
 
 export default async function ProductsPage() {
   const res = await fetch(`${CONFIG.API_BASE_URL}/products`, {
